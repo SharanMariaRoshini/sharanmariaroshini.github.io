@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sharan Maria Roshini | Medical Records QA Analyst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── RESET & BASE ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: #07070d;
+      color: #e8e0f0;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CUSTOM CURSOR ─── */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: #c9a84c;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+      mix-blend-mode: normal;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 38px; height: 38px;
+      border: 1.5px solid rgba(201,168,76,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.18s ease;
+    }
+    .cursor.hover { width: 6px; height: 6px; background: #e2c97e; }
+    .cursor-ring.hover { width: 52px; height: 52px; border-color: rgba(201,168,76,0.8); }
+
+    /* ─── CSS VARIABLES ─── */
+    :root {
+      --black: #07070d;
+      --black-2: #0d0d18;
+      --violet-deep: #15112b;
+      --violet-mid: #2d1b69;
+      --violet-accent: #6b3fa0;
+      --violet-bright: #9d6edd;
+      --gold: #c9a84c;
+      --gold-light: #e2c97e;
+      --gold-dim: #7a6226;
+      --white: #f5f0ff;
+      --text-muted: #8b7fa8;
+      --border: rgba(201,168,76,0.15);
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.4;
+    }
+
+    /* ─── NAVIGATION ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(7,7,13,0.82);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 60px;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--gold-light); }
+
+    /* ─── GOLD LINE DECORATOR ─── */
+    .gold-line {
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      vertical-align: middle;
+      margin-right: 12px;
+    }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    /* ─── HERO SECTION ─── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: -10%;
+      background-image: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1600&q=85&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(7,7,13,0.55) 0%,
+        rgba(21,17,43,0.72) 40%,
+        rgba(7,7,13,0.92) 85%,
+        #07070d 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 0 30px;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 7px 18px;
+      border-radius: 30px;
+      margin-bottom: 30px;
+      background: rgba(201,168,76,0.06);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.9s ease 0.5s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold-light);
+      font-weight: 300;
+    }
+    .hero-title {
+      font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 46px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.9s ease 0.7s forwards;
+    }
+    .hero-metrics {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.9s ease 0.9s forwards;
+    }
+    .metric-pill {
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 50px;
+      padding: 10px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .metric-pill .num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+    .metric-pill .lbl {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      line-height: 1.3;
+      max-width: 100px;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 1.3s forwards;
+    }
+    .hero-scroll span {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.1); }
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes goldShimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* ─── REVEAL ON SCROLL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ─── ABOUT SECTION ─── */
+    #about {
+      position: relative;
+      padding: 120px 60px;
+      overflow: hidden;
+    }
+    .about-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-image-wrap {
+      position: relative;
+    }
+    .about-image-frame {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .about-image-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.12), transparent 50%, rgba(107,63,160,0.15));
+      z-index: 1;
+    }
+    .about-image-frame img {
+      width: 100%;
+      height: 460px;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(15%) brightness(0.9);
+      transition: filter 0.5s ease, transform 0.5s ease;
+    }
+    .about-image-frame:hover img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.02);
+    }
+    .about-image-border {
+      position: absolute;
+      top: -14px; right: -14px;
+      bottom: 14px; left: 14px;
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+    .about-stat-badge {
+      position: absolute;
+      bottom: -24px;
+      left: -24px;
+      background: linear-gradient(135deg, #1a0d3d, #2d1b69);
+      border: 1px solid rgba(201,168,76,0.35);
+      border-radius: 8px;
+      padding: 18px 24px;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+    }
+    .about-stat-badge .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+    .about-stat-badge .stat-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      letter-spacing: 0.06em;
+    }
+    .about-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    .about-text h2 em {
+      font-style: italic;
+      color: var(--violet-bright);
+    }
+    .about-text p {
+      font-size: 0.97rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .gold-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin: 28px 0;
+    }
+    .highlight-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #b8a8d0;
+      font-weight: 400;
+    }
+
+    /* ─── SKILLS SECTION ─── */
+    #skills {
+      padding: 120px 60px;
+      background: linear-gradient(180deg, var(--black) 0%, #0f0a1e 50%, var(--black) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    #skills::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(45,27,105,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .skills-header {
+      max-width: 1200px;
+      margin: 0 auto 70px;
+    }
+    .skills-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .skills-header p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      line-height: 1.7;
+    }
+    .skills-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .skill-card {
+      background: rgba(13,13,24,0.9);
+      border: 1px solid rgba(201,168,76,0.08);
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s ease, background 0.4s ease;
+      cursor: none;
+    }
+    .skill-card:hover {
+      border-color: rgba(201,168,76,0.3);
+      background: rgba(21,17,43,0.95);
+    }
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .skill-card:hover::after { opacity: 1; }
+    .skill-icon {
+      width: 48px; height: 48px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .skill-icon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      filter: saturate(0.5) brightness(0.7);
+    }
+    .skill-card-number {
+      position: absolute;
+      top: 28px; right: 28px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: rgba(201,168,76,0.06);
+      line-height: 1;
+    }
+    .skill-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+    }
+    .skill-card p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .skill-tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--gold-dim);
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: 4px 10px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    /* ─── EXPERIENCE SECTION ─── */
+    #experience {
+      padding: 120px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .experience-header {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+    }
+    .experience-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .exp-block {
+      max-width: 1200px;
+      margin: 0 auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .exp-block + .exp-block { margin-top: 60px; }
+    .exp-image-pane {
+      position: relative;
+      overflow: hidden;
+      min-height: 480px;
+    }
+    .exp-image-pane img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(20%) brightness(0.7);
+      transition: transform 0.8s cubic-bezier(0.16,1,0.3,1), filter 0.6s ease;
+    }
+    .exp-block:hover .exp-image-pane img {
+      transform: scale(1.04);
+      filter: grayscale(0%) brightness(0.75);
+    }
+    .exp-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(21,17,43,0.6), rgba(7,7,13,0.3));
+    }
+    .exp-image-label {
+      position: absolute;
+      bottom: 28px; left: 28px;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 8px 16px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+    .exp-content-pane {
+      background: #0d0d18;
+      padding: 52px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .exp-period {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .exp-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .exp-company {
+      font-size: 0.88rem;
+      color: var(--violet-bright);
+      margin-bottom: 28px;
+      font-weight: 400;
+    }
+    .exp-divider {
+      width: 36px;
+      height: 1px;
+      background: var(--gold-dim);
+      margin-bottom: 28px;
+    }
+    .exp-achievements {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .exp-achievements li {
+      font-size: 0.875rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .exp-achievements li::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+    .exp-achievements li strong {
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+
+    /* ─── STATS BAR ─── */
+    #stats {
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-parallax-bg {
+      position: absolute;
+      inset: -10%;
+      background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+    .stats-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(7,7,13,0.88);
+    }
+    .stats-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 60px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .stat-item {
+      padding: 40px 36px;
+      border: 1px solid rgba(201,168,76,0.08);
+      text-align: center;
+      background: rgba(13,13,24,0.6);
+      backdrop-filter: blur(10px);
+    }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+    }
+    .stat-unit {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    /* ─── TOOLS SECTION ─── */
+    #tools {
+      padding: 120px 60px;
+      background: linear-gradient(180deg, var(--black) 0%, #0c0a1a 100%);
+      position: relative;
+    }
+    .tools-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .tools-header { margin-bottom: 60px; }
+    .tools-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+      color: var(--white);
+    }
+    .tools-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .tool-group { margin-bottom: 40px; }
+    .tool-group-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+    .tool-items {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .tool-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(13,13,24,0.8);
+      border: 1px solid rgba(201,168,76,0.06);
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    .tool-item:hover {
+      border-color: rgba(201,168,76,0.2);
+      background: rgba(21,17,43,0.8);
+    }
+    .tool-name {
+      font-size: 0.9rem;
+      color: #c8bce0;
+      font-weight: 400;
+    }
+    .tool-bar-wrap {
+      flex: 1;
+      margin: 0 20px;
+      height: 2px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .tool-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+      border-radius: 2px;
+      width: 0;
+      transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .tool-pct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--gold-dim);
+      min-width: 36px;
+      text-align: right;
+    }
+    .tools-image-panel {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .tools-image-panel img {
+      width: 100%;
+      height: 100%;
+      min-height: 440px;
+      object-fit: cover;
+      filter: grayscale(30%) brightness(0.75);
+      display: block;
+    }
+    .tools-image-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(45,27,105,0.4), rgba(201,168,76,0.08));
+    }
+    .tools-image-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 28px;
+      background: linear-gradient(to top, rgba(7,7,13,0.9), transparent);
+      z-index: 1;
+    }
+    .tools-image-caption h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .tools-image-caption p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── EDUCATION SECTION ─── */
+    #education {
+      padding: 120px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .education-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .edu-image-side {
+      position: relative;
+    }
+    .edu-img-wrap {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .edu-img-wrap img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      filter: grayscale(20%) brightness(0.75);
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .edu-img-wrap:hover img { transform: scale(1.03); }
+    .edu-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(21,17,43,0.5), rgba(201,168,76,0.06));
+    }
+    .edu-accent-box {
+      position: absolute;
+      top: -18px; right: -18px;
+      width: 120px; height: 120px;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 4px;
+    }
+    .edu-text-side h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 36px;
+    }
+    .edu-card {
+      background: rgba(13,13,24,0.9);
+      border: 1px solid var(--border);
+      padding: 36px;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
+    }
+    .edu-degree {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .edu-institution {
+      font-size: 0.88rem;
+      color: var(--violet-bright);
+      margin-bottom: 6px;
+    }
+    .edu-year {
+      font-size: 0.75rem;
+      color: var(--gold-dim);
+      letter-spacing: 0.1em;
+    }
+    .lang-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 10px;
+    }
+    .lang-badge {
+      padding: 8px 18px;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 3px;
+      font-size: 0.8rem;
+      color: #b0a0cc;
+    }
+    .lang-badge strong { color: var(--gold-light); font-weight: 500; }
+
+    /* ─── CONTACT SECTION ─── */
+    #contact {
+      position: relative;
+      padding: 0;
+      overflow: hidden;
+    }
+    .contact-bg {
+      position: absolute;
+      inset: -10%;
+      background-image: url('https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1600&q=80&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+    .contact-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(7,7,13,0.92), rgba(21,17,43,0.9), rgba(7,7,13,0.95));
+    }
+    .contact-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 130px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .contact-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    .contact-left h2 em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .contact-left p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .contact-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .contact-icon {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    .contact-info .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 3px;
+    }
+    .contact-info .value {
+      font-size: 0.92rem;
+      color: var(--white);
+    }
+    .contact-cta-wrap {
+      margin-top: 36px;
+    }
+    .btn-gold {
+      display: inline-block;
+      padding: 14px 36px;
+      background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+      color: #07070d;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+      cursor: none;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(201,168,76,0.25);
+    }
+    .contact-right-card {
+      background: rgba(13,13,24,0.8);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 48px;
+      backdrop-filter: blur(20px);
+    }
+    .contact-right-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .contact-right-card .subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+    .key-skills-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .key-skills-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: #b0a0cc;
+    }
+    .key-skills-list li::before {
+      content: '';
+      width: 18px; height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+    .availability-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 30px;
+      padding: 10px 18px;
+      background: rgba(107,63,160,0.15);
+      border: 1px solid rgba(107,63,160,0.4);
+      border-radius: 30px;
+      font-size: 0.78rem;
+      color: var(--violet-bright);
+    }
+    .availability-dot {
+      width: 7px; height: 7px;
+      background: #5fdd90;
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(95,221,144,0.4); }
+      50% { box-shadow: 0 0 0 5px rgba(95,221,144,0); }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #05050a;
+      border-top: 1px solid var(--border);
+      padding: 32px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+    footer .footer-name span { color: var(--gold); }
+    footer .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(139,127,168,0.5);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── SECTION WRAPPERS ─── */
+    .section-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ─── BG DECORATORS ─── */
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      #about, #skills, #experience, #tools, #education { padding: 80px 24px; }
+      .about-grid, .tools-layout, .education-inner, .contact-content { grid-template-columns: 1fr; gap: 40px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .stats-content { grid-template-columns: 1fr 1fr; padding: 60px 24px; }
+      .exp-block { grid-template-columns: 1fr; }
+      .exp-image-pane { min-height: 240px; }
+      .contact-content { padding: 80px 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 10px; text-align: center; }
+      .about-stat-badge { left: 10px; bottom: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="navbar">
+    <div class="nav-logo">S<span>.</span>M<span>.</span> Roshini</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Medical Records QA Analyst</div>
+      <h1 class="hero-name">Sharan <em>Maria</em><br>Roshini</h1>
+      <p class="hero-title">Delivering 99% Documentation Accuracy · Healthcare Compliance · Insurance Claims Excellence</p>
+      <div class="hero-metrics">
+        <div class="metric-pill">
+          <span class="num" data-count="99">0</span><span class="num">%</span>
+          <span class="lbl">Documentation Accuracy</span>
+        </div>
+        <div class="metric-pill">
+          <span class="num" data-count="25">0</span><span class="num">%</span>
+          <span class="lbl">Claim Rejection Reduction</span>
+        </div>
+        <div class="metric-pill">
+          <span class="num" data-count="400">0</span><span class="num">+</span>
+          <span class="lbl">Records / Week</span>
+        </div>
+        <div class="metric-pill">
+          <span class="num" data-count="95">0</span><span class="num">%+</span>
+          <span class="lbl">Audit Score</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="bg-orb" style="width:500px;height:500px;background:rgba(45,27,105,0.12);top:-100px;right:-150px;"></div>
+    <div class="about-grid">
+      <div class="about-image-wrap reveal">
+        <div class="about-image-frame">
+          <img src="https://images.unsplash.com/photo-1576671081837-49000212a370?w=800&q=80&auto=format&fit=crop" alt="Healthcare Professional">
+        </div>
+        <div class="about-image-border"></div>
+        <div class="about-stat-badge">
+          <div class="stat-num">7+</div>
+          <div class="stat-desc">Years of<br>Professional Excellence</div>
+        </div>
+      </div>
+      <div class="about-text reveal reveal-delay-2">
+        <div class="section-label"><span class="gold-line"></span>Who I Am</div>
+        <h2>Precision-Driven<br><em>QA Specialist</em><br>in Healthcare</h2>
+        <div class="gold-divider"></div>
+        <p class="highlight-text">Specializing in high-volume medical records workflows, I deliver consistent 99% accuracy while systematically eliminating documentation gaps that cause claim rejections and delays.</p>
+        <p>My approach combines rigorous quality protocols with proactive cross-functional coordination — ensuring that every patient record meets audit standards before it ever reaches the submission stage. I have a proven track record of reducing rework cycles and accelerating insurance approvals across complex healthcare operations.</p>
+        <p>Based in Chennai, India, I bring deep expertise in EHR/EMR systems, insurance claims support, and compliance frameworks — backed by a history of zero data breach incidents across every engagement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section id="skills">
+    <div class="skills-header section-wrapper">
+      <div class="section-label reveal"><span class="gold-line"></span>Core Competencies</div>
+      <h2 class="reveal reveal-delay-1">Skills &amp; Expertise</h2>
+      <p class="reveal reveal-delay-2">A comprehensive set of capabilities built across healthcare documentation, quality assurance, and operations management.</p>
+    </div>
+    <div class="skills-grid section-wrapper">
+      <!-- Card 1 -->
+      <div class="skill-card reveal">
+        <div class="skill-card-number">01</div>
+        <div class="skill-icon">
+          <img class="skill-icon-img" src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&q=80&auto=format&fit=crop" alt="">
+        </div>
+        <h3>Medical Records Audit</h3>
+        <p>Processing and quality-checking 400+ patient records weekly with 98–99% documentation accuracy. Identifying gaps and inconsistencies before submission to ensure audit-ready workflows.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">EHR/EMR</span>
+          <span class="skill-tag">Clinical Review</span>
+          <span class="skill-tag">Documentation</span>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-card-number">02</div>
+        <div class="skill-icon">
+          <img class="skill-icon-img" src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=100&q=80&auto=format&fit=crop" alt="">
+        </div>
+        <h3>Insurance Claims Support</h3>
+        <p>Contributing to a 20–25% reduction in claim rejection rates by resolving incomplete documentation pre-submission and coordinating with insurance teams for faster first-pass acceptance.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Claims Processing</span>
+          <span class="skill-tag">SLA Management</span>
+          <span class="skill-tag">TAT Improvement</span>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-card-number">03</div>
+        <div class="skill-icon">
+          <img class="skill-icon-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&q=80&auto=format&fit=crop" alt="">
+        </div>
+        <h3>Quality Assurance &amp; Error Reduction</h3>
+        <p>Achieving audit scores consistently above 95% through structured validation checks, SOP adherence, and standardized quality review protocols that reduce manual documentation errors by ~25%.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">QA Protocols</span>
+          <span class="skill-tag">SOP Development</span>
+          <span class="skill-tag">Audit Readiness</span>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-card-number">04</div>
+        <div class="skill-icon">
+          <img class="skill-icon-img" src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=100&q=80&auto=format&fit=crop" alt="">
+        </div>
+        <h3>Healthcare Compliance</h3>
+        <p>Maintaining strict data confidentiality and regulatory compliance across all workflows — with a flawless record of zero data breach or compliance incidents across all healthcare engagements.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Data Privacy</span>
+          <span class="skill-tag">Compliance</span>
+          <span class="skill-tag">HIPAA Standards</span>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-card-number">05</div>
+        <div class="skill-icon">
+          <img class="skill-icon-img" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=100&q=80&auto=format&fit=crop" alt="">
+        </div>
+        <h3>Cross-functional Coordination</h3>
+        <p>Proactively collaborating with hospital records departments, insurance teams, and audit functions to streamline document retrieval workflows and cut TAT by 15–20%.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Stakeholder Mgmt</span>
+          <span class="skill-tag">Workflow Design</span>
+          <span class="skill-tag">Process Improvement</span>
+        </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="skill-card reveal reveal-delay-3">
+        <div class="skill-card-number">06</div>
+        <div class="skill-icon">
+          <img class="skill-icon-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=100&q=80&auto=format&fit=crop" alt="">
+        </div>
+        <h3>Escalation &amp; Operations Management</h3>
+        <p>Managing 100+ daily escalations across voice and digital channels at &gt;95% SLA, while reducing operational backlog by 30% through strategic prioritization and process redesign.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Escalation Mgmt</span>
+          <span class="skill-tag">SLA Adherence</span>
+          <span class="skill-tag">Backlog Reduction</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS PARALLAX ── -->
+  <section id="stats">
+    <div class="stats-parallax-bg" id="statsBg"></div>
+    <div class="stats-overlay"></div>
+    <div class="stats-content">
+      <div class="stat-item reveal">
+        <span class="stat-number"><span class="count-up" data-target="99">0</span><span class="stat-unit">%</span></span>
+        <div class="stat-label">Documentation Accuracy</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <span class="stat-number"><span class="count-up" data-target="25">0</span><span class="stat-unit">%</span></span>
+        <div class="stat-label">Claim Rejection Reduction</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <span class="stat-number"><span class="count-up" data-target="400">0</span><span class="stat-unit">+</span></span>
+        <div class="stat-label">Records Processed Weekly</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <span class="stat-number"><span class="count-up" data-target="30">0</span><span class="stat-unit">%</span></span>
+        <div class="stat-label">Backlog Reduction Achieved</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section id="experience">
+    <div class="bg-orb" style="width:600px;height:600px;background:rgba(107,63,160,0.08);bottom:-200px;left:-200px;"></div>
+    <div class="experience-header section-wrapper reveal">
+      <div class="section-label"><span class="gold-line"></span>Career Journey</div>
+      <h2>Professional Experience</h2>
+    </div>
+
+    <!-- Job 1: Optum -->
+    <div class="exp-block section-wrapper reveal reveal-delay-1">
+      <div class="exp-image-pane">
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80&auto=format&fit=crop" alt="Optum Healthcare">
+        <div class="exp-image-overlay"></div>
+        <div class="exp-image-label">Healthcare Technology</div>
+      </div>
+      <div class="exp-content-pane">
+        <div class="exp-period">Mar 2025 — May 2026</div>
+        <div class="exp-role">Medical Records Quality Analyst</div>
+        <div class="exp-company">Optum Health &amp; Technology · Chennai, India</div>
+        <div class="exp-divider"></div>
+        <ul class="exp-achievements">
+          <li>Processed and quality-checked <strong>400+ patient records weekly</strong>, achieving 98–99% documentation accuracy across insurance and clinical workflows.</li>
+          <li>Identified and resolved incomplete medical documentation pre-submission, contributing to an estimated <strong>20–25% reduction in claim rejection rates</strong>.</li>
+          <li>Improved TAT by <strong>~15–20%</strong> by proactively coordinating with hospital records departments and streamlining retrieval workflows.</li>
+          <li>Reduced manual documentation errors by <strong>~25%</strong> through structured validation checks and standardized quality review protocols.</li>
+          <li>Maintained audit scores consistently <strong>above 95%</strong>, ensuring compliance with internal quality benchmarks and healthcare documentation standards.</li>
+          <li>Maintained a <strong>zero-incident record</strong> for data breaches and compliance violations across all workflows.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Job 2: Altruist -->
+    <div class="exp-block section-wrapper reveal reveal-delay-1" style="margin-top:60px;">
+      <div class="exp-content-pane" style="order:1;">
+        <div class="exp-period">Sep 2021 — Feb 2022</div>
+        <div class="exp-role">Escalation &amp; Operations Coordinator</div>
+        <div class="exp-company">Altruist Technologies · Chennai, India</div>
+        <div class="exp-divider"></div>
+        <ul class="exp-achievements">
+          <li>Managed <strong>100+ daily escalations</strong> across voice and digital channels while maintaining &gt;95% SLA adherence.</li>
+          <li>Analysed recurring issue patterns and collaborated with internal teams to resolve <strong>6 key process bottlenecks</strong>.</li>
+          <li>Reduced operational backlog by <strong>30% within one quarter</strong> through process improvements and prioritization strategies.</li>
+          <li>Developed and implemented <strong>SOPs and escalation playbooks</strong>, significantly improving team efficiency and consistency across functions.</li>
+        </ul>
+      </div>
+      <div class="exp-image-pane" style="order:2;">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80&auto=format&fit=crop" alt="Operations Team">
+        <div class="exp-image-overlay"></div>
+        <div class="exp-image-label">Operations Management</div>
+      </div>
+    </div>
+
+    <!-- Career Break -->
+    <div class="section-wrapper reveal" style="margin-top:50px;padding:36px;background:rgba(13,13,24,0.7);border:1px solid var(--border);border-radius:4px;">
+      <div style="display:flex;gap:24px;align-items:flex-start;">
+        <div style="width:2px;background:linear-gradient(to bottom, var(--gold-dim), transparent);flex-shrink:0;align-self:stretch;min-height:60px;"></div>
+        <div>
+          <div class="exp-period" style="margin-bottom:6px;">Feb 2022 — Mar 2025</div>
+          <div class="exp-role" style="font-size:1.2rem;margin-bottom:8px;">Career Break — Maternity &amp; Family Care</div>
+          <p style="font-size:0.88rem;line-height:1.65;color:var(--text-muted);">A planned maternity break, followed by a successful re-entry into the workforce in a quality-focused healthcare operations role — demonstrating professional resilience, adaptability, and strong commitment to continuous growth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TOOLS ── -->
+  <section id="tools">
+    <div class="tools-inner">
+      <div class="tools-header">
+        <div class="section-label reveal"><span class="gold-line"></span>Technical Proficiency</div>
+        <h2 class="reveal reveal-delay-1">Tools &amp; Systems</h2>
+      </div>
+      <div class="tools-layout">
+        <div>
+          <div class="tool-group reveal">
+            <div class="tool-group-label">Healthcare Platforms</div>
+            <div class="tool-items">
+              <div class="tool-item">
+                <span class="tool-name">Phoenix (Records Retrieval)</span>
+                <div class="tool-bar-wrap"><div class="tool-bar" data-width="92"></div></div>
+                <span class="tool-pct">92%</span>
+              </div>
+              <div class="tool-item">
+                <span class="tool-name">Bifrost (Documentation)</span>
+                <div class="tool-bar-wrap"><div class="tool-bar" data-width="88"></div></div>
+                <span class="tool-pct">88%</span>
+              </div>
+              <div class="tool-item">
+                <span class="tool-name">EHR / EMR Systems</span>
+                <div class="tool-bar-wrap"><div class="tool-bar" data-width="90"></div></div>
+                <span class="tool-pct">90%</span>
+              </div>
+            </div>
+          </div>
+          <div class="tool-group reveal reveal-delay-1">
+            <div class="tool-group-label">CRM &amp; Productivity</div>
+            <div class="tool-items">
+              <div class="tool-item">
+                <span class="tool-name">Salesforce CRM</span>
+                <div class="tool-bar-wrap"><div class="tool-bar" data-width="85"></div></div>
+                <span class="tool-pct">85%</span>
+              </div>
+              <div class="tool-item">
+                <span class="tool-name">MS Excel &amp; Reporting</span>
+                <div class="tool-bar-wrap"><div class="tool-bar" data-width="90"></div></div>
+                <span class="tool-pct">90%</span>
+              </div>
+              <div class="tool-item">
+                <span class="tool-name">VDI Environment</span>
+                <div class="tool-bar-wrap"><div class="tool-bar" data-width="80"></div></div>
+                <span class="tool-pct">80%</span>
+              </div>
+            </div>
+          </div>
+          <div class="tool-group reveal reveal-delay-2">
+            <div class="tool-group-label">Process &amp; Documentation</div>
+            <div class="tool-items">
+              <div class="tool-item">
+                <span class="tool-name">SOP Development</span>
+                <div class="tool-bar-wrap"><div class="tool-bar" data-width="88"></div></div>
+                <span class="tool-pct">88%</span>
+              </div>
+              <div class="tool-item">
+                <span class="tool-name">Quality Audit Frameworks</span>
+                <div class="tool-bar-wrap"><div class="tool-bar" data-width="95"></div></div>
+                <span class="tool-pct">95%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tools-image-panel reveal reveal-delay-2">
+          <img src="https://images.unsplash.com/photo-1614308458585-8ed1de012e4e?w=800&q=80&auto=format&fit=crop" alt="Medical Documentation Systems">
+          <div class="tools-image-caption">
+            <h4>Healthcare Information Systems</h4>
+            <p>Expert in EHR/EMR platforms, CRM tools, and specialized medical records retrieval systems.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ── -->
+  <section id="education">
+    <div class="education-inner section-wrapper">
+      <div class="edu-image-side reveal">
+        <div class="edu-img-wrap">
+          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80&auto=format&fit=crop" alt="Education - Patrician College">
+        </div>
+        <div class="edu-accent-box"></div>
+      </div>
+      <div class="edu-text-side reveal reveal-delay-2">
+        <div class="section-label"><span class="gold-line"></span>Academic Foundation</div>
+        <h2>Education &amp;<br>Languages</h2>
+        <div class="edu-card">
+          <div class="edu-degree">B.C.A — Bachelor of Computer Applications</div>
+          <div class="edu-institution">Patrician College of Arts &amp; Science · Chennai, India</div>
+          <div class="edu-year">2018 – 2021</div>
+        </div>
+        <div class="edu-card" style="margin-bottom:30px;">
+          <div class="edu-degree" style="font-size:1.1rem;margin-bottom:14px;">Language Proficiency</div>
+          <div class="lang-row">
+            <div class="lang-badge"><strong>English</strong><br><span style="font-size:0.72rem;color:var(--text-muted);">Professional</span></div>
+            <div class="lang-badge"><strong>Tamil</strong><br><span style="font-size:0.72rem;color:var(--text-muted);">Native</span></div>
+          </div>
+        </div>
+        <div class="availability-badge">
+          <div class="availability-dot"></div>
+          Available for New Opportunities · Chennai, India
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <div class="contact-bg" id="contactBg"></div>
+    <div class="contact-overlay"></div>
+    <div class="contact-content">
+      <div class="contact-left reveal">
+        <div class="section-label"><span class="gold-line"></span>Get In Touch</div>
+        <h2>Let's Build<br>Something <em>Exceptional</em><br>Together</h2>
+        <p>Open to new opportunities in healthcare QA, medical records management, and clinical documentation roles across Chennai and beyond.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-info">
+              <div class="label">Location</div>
+              <div class="value">Chennai, India</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-info">
+              <div class="label">Phone</div>
+              <div class="value">+91 9360724790</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div class="contact-info">
+              <div class="label">Email</div>
+              <div class="value">sharanmariaa@gmail.com</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🔗</div>
+            <div class="contact-info">
+              <div class="label">LinkedIn</div>
+              <div class="value">linkedin.com/in/sharanmariaroshini</div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-cta-wrap">
+          <a href="mailto:sharanmariaa@gmail.com" class="btn-gold">Send a Message</a>
+        </div>
+      </div>
+      <div class="contact-right-card reveal reveal-delay-2">
+        <h3>What I Bring</h3>
+        <div class="subtitle">Key strengths for your healthcare team</div>
+        <ul class="key-skills-list">
+          <li>99% documentation accuracy in high-volume workflows</li>
+          <li>Proven 25% reduction in insurance claim rejections</li>
+          <li>Expertise in Phoenix, Bifrost &amp; Salesforce CRM</li>
+          <li>Consistent audit scores above 95%</li>
+          <li>Zero data breach or compliance incidents on record</li>
+          <li>SOP development &amp; escalation playbook creation</li>
+          <li>Strong cross-functional coordination skills</li>
+          <li>TAT improvement up to 20% through process redesign</li>
+        </ul>
+        <div class="availability-badge" style="margin-top:28px;">
+          <div class="availability-dot"></div>
+          Open to Full-Time · Contract · Chennai
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-name">Sharan Maria <span>Roshini</span></div>
+    <div class="footer-copy">© 2025 · Medical Records QA Analyst · Chennai, India</div>
+  </footer>
+
+  <!-- ── SCRIPTS ── -->
+  <script>
+    // ── Custom Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a, button, .skill-card, .tool-item, .exp-block, .metric-pill').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+    });
+
+    // ── Navbar scroll ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── Parallax (Hero, Stats, Contact) ──
+    const heroBg = document.getElementById('heroBg');
+    const statsBg = document.getElementById('statsBg');
+    const contactBg = document.getElementById('contactBg');
+
+    function applyParallax(el, sectionEl, factor) {
+      if (!el || !sectionEl) return;
+      const rect = sectionEl.getBoundingClientRect();
+      const visible = rect.bottom > 0 && rect.top < window.innerHeight;
+      if (!visible) return;
+      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+      el.style.transform = `translateY(${center * factor}px)`;
+    }
+
+    const statsSection = document.getElementById('stats');
+    const contactSection = document.getElementById('contact');
+
+    window.addEventListener('scroll', () => {
+      applyParallax(heroBg, document.getElementById('hero'), 0.25);
+      applyParallax(statsBg, statsSection, 0.2);
+      applyParallax(contactBg, contactSection, 0.2);
+    }, { passive: true });
+
+    // ── Scroll Reveal (IntersectionObserver) ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Animate tool bars
+          if (entry.target.querySelector('.tool-bar')) {
+            entry.target.querySelectorAll('.tool-bar').forEach(bar => {
+              setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 200);
+            });
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Animate tool bars on section reveal
+    const toolsSection = document.getElementById('tools');
+    const toolsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.tool-bar').forEach(bar => {
+            setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 300);
+          });
+          toolsObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.1 });
+    toolsObserver.observe(toolsSection);
+
+    // ── Count-up animation ──
+    function animateCountUp(el, target, duration = 1800) {
+      let start = 0;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(ease * target);
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      };
+      requestAnimationFrame(step);
+    }
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.count-up').forEach(el => {
+            animateCountUp(el, parseInt(el.dataset.target));
+          });
+          // Hero metric pills
+          entry.target.querySelectorAll('[data-count]').forEach(el => {
+            animateCountUp(el, parseInt(el.dataset.count));
+          });
+          countObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('#stats, #hero').forEach(s => countObserver.observe(s));
+  </script>
+</body>
+</html>
